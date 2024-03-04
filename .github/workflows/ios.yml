@@ -1,0 +1,30 @@
+name: Swift
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  build:
+
+    runs-on: macos-14
+
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: Xcode Setup
+      uses: maxim-lobanov/setup-xcode@v1
+      with:
+        xcode-version: latest
+
+    - name: Build
+      run: |
+        cd RickyAndMorty
+        xcodebuild build -project RickAndMorty.xcodeproj -scheme RickAndMorty clean build -sdk iphoneos CODE_SIGNING_ALLOWED=No
+
+    - name: Run tests
+      run: |
+        cd RickyAndMorty
+        xcodebuild test -project RickAndMorty.xcodeproj -scheme RickAndMorty clean build -sdk iphoneos -destination "platform=iOS Simulator,name=iPhone SE (3rd generation)" CODE_SIGNING_ALLOWED=No

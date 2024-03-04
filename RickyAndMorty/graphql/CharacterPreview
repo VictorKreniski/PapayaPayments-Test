@@ -1,0 +1,7 @@
+query CharacterPreview($id: ID!){
+  character(id: $id) {
+    id
+    name
+    image
+  }
+}
